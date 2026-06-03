@@ -21,10 +21,10 @@ jobs:
           required=(
             "quartz.config.yaml"
             "docker-compose.yml"
+            "docker/knowledgebase-mcp.Dockerfile"
             "scripts/build-quartz.sh"
             "scripts/serve-quartz.sh"
             "scripts/knowledgebase_mcp_server.py"
-            "docker/knowledgebase-mcp.Dockerfile"
             "content/index.md"
           )
           missing=0
